@@ -1,10 +1,18 @@
-const { GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLID, GraphQLList } = require('graphql');
+const { GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLID } = require('graphql');
+
 // Import Mongoose models
-const User = require('./models/User');
-const Assignment = require('./models/Assignment');
-const GradingCriteria = require('./models/GradingCriteria');
-const Feedback = require('./models/Feedback');
-const Essay = require('./models/Essay');
+const User = require('../models/User');
+const Assignment = require('../models/Assignment');
+const GradingCriteria = require('../models/GradingCriteria');
+const Feedback = require('../models/Feedback');
+const Essay = require('../models/Essay');
+
+// Import resolver functions
+const userResolvers = require('./resolvers/userResolvers');
+const assignmentResolvers = require('./resolvers/assignmentResolvers');
+const gradingCriteriaResolvers = require('./resolvers/gradingCriteriaResolvers');
+const feedbackResolvers = require('./resolvers/feedbackResolvers');
+const essayResolvers = require('./resolvers/essayResolvers');
 
 // Define Object Types
 const UserType = new GraphQLObjectType({
@@ -55,26 +63,11 @@ const EssayType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
-        user: {
-            type: UserType,
-            args: { id: { type: GraphQLID } },
-            resolve(parent, args) {
-                return User.findById(args.id);
-            },
-        },
-        users: {
-            type: new GraphQLList(UserType),
-            resolve(parent, args) {
-                return User.find({});
-            },
-        },
-        assignment: {
-            type: AssignmentType,
-            args: { id: { type: GraphQLID } },
-            resolve(parent, args) {
-                return Assignment.findById(args.id);
-            },
-        },
+        ...userResolvers.Query,
+        ...assignmentResolvers.Query,
+        ...gradingCriteriaResolvers.Query,
+        ...feedbackResolvers.Query,
+        ...essayResolvers.Query,
     },
 });
 
@@ -82,58 +75,16 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
     name: 'Mutation',
     fields: {
-        addUser: {
-            type: UserType,
-            args: {
-            },
-            resolve(parent, args) {
-                let user = new User({
-                });
-                return user.save();
-            },
-        },
-        addAssignment: {
-            type: AssignmentType,
-            args: {
-            },
-            resolve(parent, args) {
-                let assignment = new Assignment({
-                });
-                return assignment.save();
-            },
-        },
-        addGradingCriteria: {
-            type: GradingCriteriaType,
-            args: {
-            },
-            resolve(parent, args) {
-                let gradingCriteria = new GradingCriteria({
-                });
-                return gradingCriteria.save();
-            },
-        },
-        addFeedback: {
-            type: FeedbackType,
-            args: {
-            },
-            resolve(parent, args) {
-                let feedback = new Feedback({
-                });
-                return feedback.save();
-            },
-        },
-        addEssay: {
-            type: EssayType,
-            args: {
-            },
-            resolve(parent, args) {
-                let essay = new Essay({
-                });
-                return essay.save();
-            },
-        },
+        ...userResolvers.Mutation,
+        ...assignmentResolvers.Mutation,
+        ...gradingCriteriaResolvers.Mutation,
+        ...feedbackResolvers.Mutation,
+        ...essayResolvers.Mutation,
     },
 });
 
 // Export the schema
-module.exports = new GraphQLSchema({ query: RootQuery, mutation: Mutation });
+module.exports = new GraphQLSchema({ 
+    query: RootQuery, 
+    mutation: Mutation,
+});
