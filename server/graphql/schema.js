@@ -3,14 +3,14 @@ const { GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLID } = require('
 // Import Mongoose models
 const User = require('../models/User');
 const Assignment = require('../models/Assignment');
-const GradingCriteria = require('../models/GradingCriteria');
+const MarkingCriteria = require('../models/MarkingCriteria');
 const Feedback = require('../models/Feedback');
 const Essay = require('../models/Essay');
 
 // Import resolver functions
 const userResolvers = require('./resolvers/userResolvers');
 const assignmentResolvers = require('./resolvers/assignmentResolvers');
-const gradingCriteriaResolvers = require('./resolvers/gradingCriteriaResolvers');
+const markingCriteriaResolvers = require('./resolvers/markingcriteriaResolvers');
 const feedbackResolvers = require('./resolvers/feedbackResolvers');
 const essayResolvers = require('./resolvers/essayResolvers');
 
@@ -19,7 +19,6 @@ const UserType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
         id: { type: GraphQLID },
-        username: { type: GraphQLString },
         email: { type: GraphQLString },
     }),
 });
@@ -32,8 +31,8 @@ const AssignmentType = new GraphQLObjectType({
     }),
 });
 
-const GradingCriteriaType = new GraphQLObjectType({
-    name: 'GradingCriteria',
+const MarkingCriteriaType = new GraphQLObjectType({
+    name: 'MarkingCriteria',
     fields: () => ({
         id: { type: GraphQLID },
         description: { type: GraphQLString },
@@ -55,7 +54,8 @@ const EssayType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLID },
         content: { type: GraphQLString },
-        // Add other fields
+        submittedBy: { type: GraphQLID },
+        assignment: { type: GraphQLID },
     }),
 });
 
@@ -65,7 +65,7 @@ const RootQuery = new GraphQLObjectType({
     fields: {
         ...userResolvers.Query,
         ...assignmentResolvers.Query,
-        ...gradingCriteriaResolvers.Query,
+        ...markingCriteriaResolvers.Query,
         ...feedbackResolvers.Query,
         ...essayResolvers.Query,
     },
@@ -77,7 +77,7 @@ const Mutation = new GraphQLObjectType({
     fields: {
         ...userResolvers.Mutation,
         ...assignmentResolvers.Mutation,
-        ...gradingCriteriaResolvers.Mutation,
+        ...markingCriteriaResolvers.Mutation,
         ...feedbackResolvers.Mutation,
         ...essayResolvers.Mutation,
     },

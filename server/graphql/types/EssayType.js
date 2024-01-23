@@ -5,6 +5,8 @@ const EssayType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLID },
         content: { type: GraphQLString },
+        submittedBy: { type: GraphQLID },
+        assignment: { type: GraphQLID },
     }),
 });
 

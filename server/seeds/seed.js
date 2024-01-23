@@ -5,12 +5,10 @@ mongoose.connect('mongodb://localhost:27017/grading-app');
 
 const seedUsers = [
     {
-        username: 'test',
         password: 'test',
         email: 'test@admin.com',
     },
     {
-        username: 'fred',
         password: 'fred',
         email: 'fred@users.com',
     },

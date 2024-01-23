@@ -2,7 +2,7 @@
 const app = require('./app');
 const db = require('./config/connection');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Connect to database and start the server
 db.once('open', () => {
