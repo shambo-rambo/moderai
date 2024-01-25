@@ -1,0 +1,4 @@
+.active {
+    color: red; /* Change the text color of active links to red */
+    font-weight: bold; /* Make the text of active links bold */
+  }
