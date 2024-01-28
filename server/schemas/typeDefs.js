@@ -15,10 +15,23 @@ const typeDefs = gql`
         user: User
     }
 
+    type Assignment {
+        _id: ID
+        title: String
+        instructions: String
+    }
+
+    input AssignmentInput {
+        title: String!
+        instructions: String!
+    }
+
     type Query {
         users: [User]
         user(_id: ID!): User
-       }
+        assignments: [Assignment]
+        assignment(_id: ID!): Assignment
+    }
 
     input UserInput {
         firstName: String!
@@ -31,6 +44,8 @@ const typeDefs = gql`
         addUser(input: UserInput): Auth
         updateUser(_id: ID!, input: UserInput): User
         deleteUser(_id: ID!): User
+        login(email: String!, password: String!): Auth
+        addAssignment(input: AssignmentInput): Assignment
     }
 `;
 

@@ -1,7 +1,4 @@
-// const Assignment = require('./Assignment');
 const User = require('./User');
-// const Feedback = require('./Feedback');
-// const Essay = require('./Essay');
-// const MarkingCriteria = require('./MarkingCriteria');
+const Assignment = require('./Assignment');
 
-module.exports = { User };
+module.exports = { User, Assignment };

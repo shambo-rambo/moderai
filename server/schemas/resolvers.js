@@ -1,6 +1,7 @@
 // Resolvers.js
-const { User } = require('../models');
+const { User, Assignment } = require('../models');
 const { signToken } = require('../utils/auth');
+const bcrypt = require('bcrypt');
 
 const resolvers = {
     Query: {
@@ -10,6 +11,12 @@ const resolvers = {
         user: async (parent, args) => {
             return await User.findOne({ _id: args._id });
         },
+        assignments: async () => {
+            return Assignment.find();
+        },
+        assignment: async (parent, args) => {
+            return await Assignment.findOne({ _id: args._id });
+        }
     },
     Mutation: {
         addUser: async (parent, { input }) => {
@@ -24,7 +31,24 @@ const resolvers = {
         deleteUser: async (parent, { _id }) => {
             const deletedUser = await User.findByIdAndDelete(_id);
             return deletedUser;
-        }
+        },
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
+            if (!user) throw new Error('Incorrect credentials');
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) throw new Error('Incorrect credentials');
+            const token = signToken(user);
+            return { token, user };
+        },
+        addAssignment: async (parent, { input }) => {
+            try {
+              const newAssignment = await Assignment.create(input);
+              return newAssignment;
+            } catch (error) {
+              console.error('Error adding assignment:', error);
+              throw new Error(error.message);
+            }
+          }          
     }
 };
 

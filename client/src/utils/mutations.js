@@ -23,7 +23,12 @@ export const ADD_USER = gql`
   }
 `;
 
-
-
-
-
+export const ADD_ASSIGNMENT = gql`
+  mutation addAssignment($input: AssignmentInput!) {
+    addAssignment(input: $input) {
+      _id
+      title
+      instructions
+    }
+  }
+`;

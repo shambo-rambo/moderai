@@ -1,11 +1,21 @@
 // // Assignments model
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-// const assignmentSchema = new mongoose.Schema({
-//     title: { type: String, required: true },
-//     description: { type: String, required: true },
-//     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-//     essays: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Essay' }],
-//   });
+const { Schema } = mongoose;
 
-// module.exports = mongoose.model('Assignment', assignmentSchema);
+const assignmentSchema = new Schema({
+    title: { 
+        type: String, 
+        required: true,
+        trim: true
+    },
+    instructions: { 
+        type: String, 
+        required: true,
+        trim: true
+    },
+});
+
+const Assignment = mongoose.model('Assignment', assignmentSchema);
+
+module.exports = Assignment;
