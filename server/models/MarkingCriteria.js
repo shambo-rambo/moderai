@@ -1,11 +1,14 @@
-const mongoose = require('mongoose');
+// // MarkingCriteria model
 
-const markingCriteriaSchema = new mongoose.Schema({
-    assignment: { type: mongoose.Schema.Types.ObjectId, ref: 'Assignment' },
-    criteria: [{
-        name: { type: String, required: true },
-        description: { type: String, required: true }
-    }],
-});
+// const mongoose = require('mongoose');
 
-module.exports = mongoose.model('MarkingCriteria', markingCriteriaSchema);
+// const markingCriteriaSchema = new mongoose.Schema({
+//     assignment: { type: mongoose.Schema.Types.ObjectId, ref: 'Assignment' },
+//     criteria: [{
+//         name: { type: String, required: true },
+//         description: { type: String, required: true },
+//         assignment: { type: mongoose.Schema.Types.ObjectId, ref: 'Assignment', required: true },
+//     }],
+// });
+
+// module.exports = mongoose.model('MarkingCriteria', markingCriteriaSchema);

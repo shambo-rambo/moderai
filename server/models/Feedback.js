@@ -1,9 +1,11 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
-const feedbackSchema = new mongoose.Schema({
-    essay: { type: mongoose.Schema.Types.ObjectId, ref: 'Essay' },
-    content: String,
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-});
+// const feedbackSchema = new mongoose.Schema({
+//   title: { type: String, required: true },
+//   description: { type: String, required: true },
+//   assignment: { type: mongoose.Schema.Types.ObjectId, ref: 'Assignment', required: true },
+// });
 
-module.exports = mongoose.model('Feedback', feedbackSchema);
+// const Feedback = mongoose.model('Feedback', feedbackSchema);
+
+// module.exports = Feedback;

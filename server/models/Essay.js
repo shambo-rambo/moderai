@@ -1,9 +1,13 @@
-const mongoose = require('mongoose');
+// // Essay model
 
-const essaySchema = new mongoose.Schema({
-    content: String,
-    submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    assignment: { type: mongoose.Schema.Types.ObjectId, ref: 'Assignment' },
-});
+// const mongoose = require('mongoose');
 
-module.exports = mongoose.model('Essay', essaySchema);
+// const essaySchema = new mongoose.Schema({
+//     title: { type: String, required: true },
+//     content: { type: String, required: true },
+//     assignment: { type: mongoose.Schema.Types.ObjectId, ref: 'Assignment', required: true },
+//     markingCriteria: { type: mongoose.Schema.Types.ObjectId, ref: 'MarkingCriteria', required: true },
+//     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+// });
+
+// module.exports = mongoose.model('Essay', essaySchema);

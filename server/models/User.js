@@ -1,38 +1,47 @@
+// User model
+
 const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
-    firstname : { type: String, required: true },
-    lastname : { type: String, required: true },
-    password: { type: String, required: true, minlength: 5 },
-    email: { type: String, required: true, unique: true },
+  firstName: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  lastName: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 5
+  },
 });
 
-// Hash password before saving
-userSchema.pre('save', function(next) {
-    if (!this.isModified('password')) return next();
+userSchema.pre('save', async function(next) {
+  if (this.isNew || this.isModified('password')) {
+    const saltRounds = 10;
+    this.password = await bcrypt.hash(this.password, saltRounds);
+  }
 
-    bcrypt.hash(this.password, 10, (err, passwordHash) => {
-        if (err) return next(err);
-
-        this.password = passwordHash;
-        next();
-    });
+  next();
 });
 
-// Compare password
-userSchema.methods.comparePassword = function(password, cb) {
-    bcrypt.compare(password, this.password, (err, isMatch) => {
-        if (err) return cb(err);
-
-        else {
-            if (!isMatch) return cb(null, isMatch);
-
-            return cb(null, this);
-        }
-    });
+// compare the incoming password with the hashed password
+userSchema.methods.isCorrectPassword = async function(password) {
+  return await bcrypt.compare(password, this.password);
 };
 
+const User = mongoose.model('User', userSchema);
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = User;

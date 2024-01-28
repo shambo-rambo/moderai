@@ -29,7 +29,6 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    error: <NoMatch />,
     children: [
       {
         index: true, 
@@ -41,16 +40,6 @@ const router = createBrowserRouter([
         path: '/signup',
         element: <Signup />
       }
-      // , {
-      //   path: '/success',
-      //   element: <Success />
-      // }, {
-      //   path: '/orderHistory',
-      //   element: <OrderHistory />
-      // }, {
-      //   path: '/products/:id',
-      //   element: <Detail />
-      // }
     ]
   }
 ]);
