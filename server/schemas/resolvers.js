@@ -1,5 +1,4 @@
-// Resolvers.js
-const { User, Assignment } = require('../models');
+const { User, Assignment, MarkingCriteria } = require('../models');
 const { signToken } = require('../utils/auth');
 const bcrypt = require('bcrypt');
 
@@ -22,15 +21,8 @@ const resolvers = {
         addUser: async (parent, { input }) => {
             const user = await User.create(input);
             const token = signToken(user);
+
             return { token, user };
-        },
-        updateUser: async (parent, { _id, ...updateArgs }) => {
-            const updatedUser = await User.findByIdAndUpdate(_id, updateArgs, { new: true });
-            return updatedUser;
-        },
-        deleteUser: async (parent, { _id }) => {
-            const deletedUser = await User.findByIdAndDelete(_id);
-            return deletedUser;
         },
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
@@ -41,14 +33,30 @@ const resolvers = {
             return { token, user };
         },
         addAssignment: async (parent, { input }) => {
-            try {
-              const newAssignment = await Assignment.create(input);
-              return newAssignment;
-            } catch (error) {
-              console.error('Error adding assignment:', error);
-              throw new Error(error.message);
+            const { title, instructions, subjectGroup, markingCriteriaInput } = input;
+            const assignment = new Assignment({ title, instructions, subjectGroup });
+            
+            // Save the assignment
+            await assignment.save();
+
+            // If marking criteria are provided, save them and associate with the assignment
+            if (markingCriteriaInput && markingCriteriaInput.length > 0) {
+                for (const criteria of markingCriteriaInput) {
+                    const newCriteria = new MarkingCriteria({ 
+                        title: criteria.title, 
+                        description: criteria.description, 
+                        assignment: assignment._id 
+                    });
+                    await newCriteria.save();
+                    assignment.markingCriteria.push(newCriteria._id);
+                }
             }
-          }          
+
+            // Save the assignment again after adding marking criteria
+            await assignment.save();
+
+            return assignment;
+        },  
     }
 };
 

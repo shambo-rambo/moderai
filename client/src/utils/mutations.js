@@ -29,6 +29,23 @@ export const ADD_ASSIGNMENT = gql`
       _id
       title
       instructions
+      subjectGroup
+      markingCriteria {
+        _id
+        title
+        description
+      }
+    }
+  }
+`;
+
+export const ADD_MARKINGCRITERIA = gql`
+  mutation addMarkingCriteria($input: MarkingCriteriaInput!) {
+    addMarkingCriteria(input: $input) {
+      _id
+      title
+      description
+      assignment
     }
   }
 `;

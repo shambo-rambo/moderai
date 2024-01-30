@@ -10,3 +10,19 @@ export const GET_ME = gql`
         }
     }
     `;
+
+    export const FETCH_ASSIGNMENT_DETAILS = gql`
+    query FetchAssignmentDetails($id: ID!) {
+        assignment(_id: $id) {
+            _id
+            title
+            instructions
+            subjectGroup
+            markingCriteria {
+                _id
+                title
+                description
+            }
+        }
+    }
+`;
