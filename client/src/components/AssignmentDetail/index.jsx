@@ -25,7 +25,6 @@ function AssignmentDetails() {
                     <h3>{assignment.title}</h3>
                     <p><strong>Instructions:</strong> {assignment.instructions}</p>
                     <p><strong>Subject Group:</strong> {assignment.subjectGroup}</p>
-                    {/* ...any other details you want to display... */}
                 </div>
             ) : (
                 <p>Assignment details not found.</p>
