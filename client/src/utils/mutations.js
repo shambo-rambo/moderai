@@ -49,3 +49,15 @@ export const ADD_MARKINGCRITERIA = gql`
     }
   }
 `;
+
+export const SUBMIT_ESSAY = gql`
+  mutation addEssay($input: EssayInput!) {
+    addEssay(input: $input) {
+      _id
+      assignmentId {
+        _id
+      }
+      text
+    }
+  }
+`;

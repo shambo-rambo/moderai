@@ -29,6 +29,12 @@ const typeDefs = gql`
         description: String
     }
 
+    type Essay {
+        _id: ID
+        assignmentId: Assignment
+        text: String
+    }
+    
     input AssignmentInput {
         title: String!
         instructions: String!
@@ -41,6 +47,11 @@ const typeDefs = gql`
         description: String!
     }
 
+    input EssayInput {
+        assignmentId: ID!
+        text: String!
+    }
+
     type Query {
         users: [User]
         user(_id: ID!): User
@@ -48,6 +59,8 @@ const typeDefs = gql`
         assignment(_id: ID!): Assignment
         markingCriterias: [MarkingCriteria]
         markingCriteria(_id: ID!): MarkingCriteria
+        essays: [Essay]
+        essay(_id: ID!): Essay
        }
 
     input UserInput {
@@ -64,6 +77,7 @@ const typeDefs = gql`
         login(email: String!, password: String!): Auth
         addAssignment(input: AssignmentInput): Assignment
         addMarkingCriteria(input: MarkingCriteriaInput): MarkingCriteria
+        addEssay(input: EssayInput): Essay
     }
 `;
 

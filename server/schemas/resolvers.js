@@ -1,4 +1,4 @@
-const { User, Assignment, MarkingCriteria } = require('../models');
+const { User, Assignment, MarkingCriteria, Essay } = require('../models');
 const { signToken } = require('../utils/auth');
 const bcrypt = require('bcrypt');
 
@@ -15,6 +15,12 @@ const resolvers = {
         },
         assignment: async (parent, args) => {
             return await Assignment.findOne({ _id: args._id });
+        },
+        essays: async () => {
+            return Essay.find();
+        },
+        essay: async (parent, args) => {
+            return await Essay.findOne({ _id: args._id });
         }
     },
     Mutation: {
@@ -57,6 +63,11 @@ const resolvers = {
 
             return assignment;
         },  
+        addEssay: async (parent, { input }) => {
+            const { assignmentId, text } = input;
+            const essay = new Essay({ assignmentId, text });
+            return await essay.save();
+        }
     }
 };
 
