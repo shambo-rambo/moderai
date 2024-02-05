@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import AssignmentDetail from '../components/AssignmentDetail';
-import EssaySubmission from '../components/EssaySubmission/Index'; // Import the EssaySubmission component
+import EssaySubmission from '../components/EssaySubmission/Index'; 
 
 function StudentWork() {
   const { assignmentID } = useParams(); // This retrieves the assignment ID from the URL

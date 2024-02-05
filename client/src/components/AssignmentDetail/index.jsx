@@ -8,13 +8,11 @@ function AssignmentDetails() {
     const { data, loading, error } = useQuery(FETCH_ASSIGNMENT_DETAILS, { variables: { id: assignmentID } });
 
     useEffect(() => {
-        // Load assignment details when component mounts
     }, [assignmentID]);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
 
-    // Check if data is available and has assignment details
     const assignment = data?.assignment;
 
     return (

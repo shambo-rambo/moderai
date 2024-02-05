@@ -33,7 +33,7 @@ const resolvers = {
             }
         },
         commentsByEssay: async (_, { essayId }) => {
-            return await Comment.find({ essayId }).populate('userId');
+            return await Comment.find({ essayId }).populate();
           },
     },
     Mutation: {
@@ -92,8 +92,8 @@ const resolvers = {
             
             return savedEssay; // Return the saved essay
         },
-        submitComment: async (parent, { essayId, text, userId }) => {
-            const comment = new Comment({ essayId, text, userId });
+        addComment: async (parent, { essayId, text }) => {
+            const comment = new Comment({ essayId, text });
             return await comment.save();
         }
     }

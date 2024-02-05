@@ -6,6 +6,8 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './theme';
 
 import Nav from './components/Nav';
 
@@ -31,8 +33,10 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
         <Nav />
         <Outlet />
+      </ThemeProvider>
     </ApolloProvider>
   );
 }

@@ -17,13 +17,11 @@ function Signup(props) {
   };
 
   useEffect(() => {
-    // This will log the form state every time it changes
     console.log(formState);
   }, [formState]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    // Log the form state at the time of submission
     console.log("Submitting:", formState);
 
     try {

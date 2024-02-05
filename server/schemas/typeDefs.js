@@ -56,7 +56,6 @@ const typeDefs = gql`
         _id: ID!
         text: String!
         essayId: ID!
-        userId: User!
     }
 
     type Query {
@@ -86,7 +85,7 @@ const typeDefs = gql`
         addAssignment(input: AssignmentInput): Assignment
         addMarkingCriteria(input: MarkingCriteriaInput): MarkingCriteria
         addEssay(input: EssayInput): Essay
-        submitComment(essayId: ID!, text: String!, userId: ID!): Comment
+        addComment(essayId: ID!, text: String!): Comment
     }
 `;
 

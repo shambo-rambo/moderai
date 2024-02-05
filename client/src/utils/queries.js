@@ -42,9 +42,6 @@ export const FETCH_COMMENTS = gql`
             _id
             text
             essayId
-            userId {
-                _id
-            }
         }
     }
 `;

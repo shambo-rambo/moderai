@@ -63,17 +63,12 @@ export const SUBMIT_ESSAY = gql`
 `;
 
 export const SUBMIT_COMMENT = gql`
-  mutation addComment($input: CommentInput!) {
-    addComment(input: $input) {
+  mutation addComment($essayId: ID!, $text: String!) {
+    addComment(essayId: $essayId, text: $text) {
       _id
       text
-      assignmentId
-      userId {
-        _id
-      }
-      essayId {
-        _id
-      }
+      essayId
     }
   }
 `;
+

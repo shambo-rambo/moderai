@@ -1,32 +1,34 @@
-// CommentBox.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { FETCH_COMMENTS } from '../../utils/queries';
+import { useParams } from 'react-router-dom';
+import { FETCH_COMMENTS } from '../../utils/queries'; 
 import { SUBMIT_COMMENT } from '../../utils/mutations';
 
-const CommentBox = ({ assignmentId }) => {
+const CommentBox = () => { 
+    const { essayID } = useParams(); 
     const [commentText, setCommentText] = useState('');
     const { data, loading, error } = useQuery(FETCH_COMMENTS, {
-        variables: { assignmentId },
+        variables: { essayId: essayID },
     });
-    const [submitComment] = useMutation(SUBMIT_COMMENT);
+    const [addComment] = useMutation(SUBMIT_COMMENT);
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
         if (!commentText.trim()) return;
 
-        await submitComment({
+        await addComment({
             variables: {
-                assignmentId,
+                essayId: essayID,
                 text: commentText,
             },
         });
-        setCommentText(''); // Reset input field after submission
-        // Optionally, refetch comments here if your query doesn't auto-update
+        setCommentText(''); 
     };
 
     if (loading) return <p>Loading comments...</p>;
     if (error) return <p>Error loading comments: {error.message}</p>;
+
+    const comments = data?.commentsByEssay || [];
 
     return (
         <div>
@@ -40,10 +42,9 @@ const CommentBox = ({ assignmentId }) => {
             </form>
             <div>
                 <h3>Comments</h3>
-                {data.comments.map((comment) => (
-                    <div key={comment.id}>
+                {comments.map((comment) => (
+                    <div key={comment._id}>
                         <p>{comment.text}</p>
-                        {/* Display more comment details here */}
                     </div>
                 ))}
             </div>

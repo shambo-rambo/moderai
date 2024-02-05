@@ -7,9 +7,9 @@ import CommentBox from '../components/CommentBox/Index';
 
 
 function EssayDetails() {
-    const { essayID } = useParams(); // Adjusted to match the case in your route definition
+    const { essayID } = useParams(); 
     const { loading, error, data } = useQuery(FETCH_ESSAY_DETAILS, {
-        variables: { id: essayID }, // Make sure this matches the expected variable name in your GraphQL query
+        variables: { id: essayID }, 
     });
 
     useEffect(() => {}, [essayID]);
