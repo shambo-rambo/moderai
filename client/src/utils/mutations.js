@@ -61,3 +61,19 @@ export const SUBMIT_ESSAY = gql`
     }
   }
 `;
+
+export const SUBMIT_COMMENT = gql`
+  mutation addComment($input: CommentInput!) {
+    addComment(input: $input) {
+      _id
+      text
+      assignmentId
+      userId {
+        _id
+      }
+      essayId {
+        _id
+      }
+    }
+  }
+`;

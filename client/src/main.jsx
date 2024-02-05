@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Assignments from './pages/Assignments';
 import StudentWork from './pages/StudentWork';
-import AssignmentDetail from './components/AssignmentDetail';
+import EssayDetails from './pages/EssayDetails';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: '/studentwork/:assignmentID',
         element: <StudentWork />
+      },
+      {
+        path: '/essaydetails/:essayID',
+        element: <EssayDetails />
       }
     ]
   }

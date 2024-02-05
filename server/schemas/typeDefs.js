@@ -52,6 +52,13 @@ const typeDefs = gql`
         text: String!
     }
 
+    type Comment {
+        _id: ID!
+        text: String!
+        essayId: ID!
+        userId: User!
+    }
+
     type Query {
         users: [User]
         user(_id: ID!): User
@@ -61,7 +68,8 @@ const typeDefs = gql`
         markingCriteria(_id: ID!): MarkingCriteria
         essays: [Essay]
         essay(_id: ID!): Essay
-       }
+        commentsByEssay(essayId: ID!): [Comment]
+    }
 
     input UserInput {
         firstName: String!
@@ -78,6 +86,7 @@ const typeDefs = gql`
         addAssignment(input: AssignmentInput): Assignment
         addMarkingCriteria(input: MarkingCriteriaInput): MarkingCriteria
         addEssay(input: EssayInput): Essay
+        submitComment(essayId: ID!, text: String!, userId: ID!): Comment
     }
 `;
 

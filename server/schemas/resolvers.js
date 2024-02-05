@@ -1,4 +1,5 @@
-const { User, Assignment, MarkingCriteria, Essay } = require('../models');
+// Resolvers 
+const { User, Assignment, MarkingCriteria, Essay, Comment } = require('../models');
 const { signToken } = require('../utils/auth');
 const bcrypt = require('bcrypt');
 
@@ -19,9 +20,21 @@ const resolvers = {
         essays: async () => {
             return Essay.find();
         },
-        essay: async (parent, args) => {
-            return await Essay.findOne({ _id: args._id });
-        }
+        essay: async (_, { _id }) => {
+            try {
+                const essay = await Essay.findById(_id);
+                if (!essay) {
+                    throw new Error(`Essay with ID ${_id} not found.`);
+                }
+                return essay;
+            } catch (error) {
+                console.error(`Error fetching essay with ID ${_id}:`, error);
+                throw new Error(error.message);
+            }
+        },
+        commentsByEssay: async (_, { essayId }) => {
+            return await Comment.find({ essayId }).populate('userId');
+          },
     },
     Mutation: {
         addUser: async (parent, { input }) => {
@@ -65,8 +78,23 @@ const resolvers = {
         },  
         addEssay: async (parent, { input }) => {
             const { assignmentId, text } = input;
+            // Create a new essay
             const essay = new Essay({ assignmentId, text });
-            return await essay.save();
+            const savedEssay = await essay.save(); // Save the essay and get the saved instance
+            
+            // Find the corresponding assignment and update it with the new essay's ID
+            const assignment = await Assignment.findById(assignmentId); // Find the assignment by ID
+            if (!assignment) {
+                throw new Error('Assignment not found');
+            }
+            assignment.essays.push(savedEssay._id); // Add the new essay's ID to the assignment's essays array
+            await assignment.save(); // Save the updated assignment
+            
+            return savedEssay; // Return the saved essay
+        },
+        submitComment: async (parent, { essayId, text, userId }) => {
+            const comment = new Comment({ essayId, text, userId });
+            return await comment.save();
         }
     }
 };

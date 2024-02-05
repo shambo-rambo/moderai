@@ -22,6 +22,10 @@ const assignmentSchema = new Schema({
     markingCriteria: [{
         type: Schema.Types.ObjectId,
         ref: 'MarkingCriteria'
+    }],
+    essays: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Essay'
     }]
 });
 

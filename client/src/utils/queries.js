@@ -26,3 +26,25 @@ export const GET_ME = gql`
         }
     }
 `;
+
+export const FETCH_ESSAY_DETAILS = gql`
+    query FetchEssayDetails($id: ID!) {
+        essay(_id: $id) {
+            _id
+            text
+        }
+    }
+`;
+
+export const FETCH_COMMENTS = gql`
+    query FetchComments($essayId: ID!) {
+        commentsByEssay(essayId: $essayId) {
+            _id
+            text
+            essayId
+            userId {
+                _id
+            }
+        }
+    }
+`;
