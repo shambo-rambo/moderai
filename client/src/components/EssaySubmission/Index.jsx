@@ -4,6 +4,7 @@ import FileViewer from '../FileViewer'; // Ensure this is the correct path to yo
 import { useMutation } from '@apollo/client';
 import { SUBMIT_ESSAY } from '../../utils/mutations'; // Update this path to match your project structure
 import { useNavigate } from 'react-router-dom';
+import { Box, Button, Typography, CircularProgress, Input } from '@mui/material';
 
 const EssaySubmission = ({ assignmentId }) => {
     const [docHtml, setDocHtml] = useState('');
@@ -71,13 +72,41 @@ const EssaySubmission = ({ assignmentId }) => {
     };
 
     return (
-        <div>
-            <input type="file" accept=".docx" onChange={handleFileChange} disabled={submitting} />
-            {uploadError && <div style={{ color: 'red' }}>{uploadError}</div>}
-            {docHtml && <FileViewer htmlContent={docHtml} />}
-            {docHtml && !submitting && <button onClick={handleSubmitEssay} disabled={submitting}>Submit Essay</button>}
-            {feedback && <div><h3>Feedback</h3><p>{feedback}</p></div>}
-        </div>
+        <Box sx={{ width: '100%', maxWidth: 600, margin: 'auto', paddingTop: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Typography variant="h4" component="h3" gutterBottom>
+                Submit Essay
+            </Typography>
+            <Input
+                type="file"
+                accept=".docx"
+                onChange={handleFileChange}
+                disabled={submitting}
+                sx={{ marginBottom: 2 }}
+            />
+            {uploadError && <Typography color="error">{uploadError}</Typography>}
+            {docHtml && (
+                <Box sx={(theme) => ({
+                    border: `2px solid ${theme.palette.primary.main}`, 
+                    padding: 2, 
+                    borderRadius: '4px', 
+                    marginTop: 2
+                })}>
+                    <FileViewer htmlContent={docHtml} />
+                </Box>
+            )}
+            {docHtml && !submitting && (
+                <Button variant="contained" color="primary" onClick={handleSubmitEssay} disabled={submitting} sx={{ mt: 2 }}>
+                    Submit Essay
+                </Button>
+            )}
+            {feedback && (
+                <Box sx={{ mt: 2 }}>
+                    <Typography variant="h6">Feedback</Typography>
+                    <Typography>{feedback}</Typography>
+                </Box>
+            )}
+            {submitting && <CircularProgress />}
+        </Box>
     );
 };
 

@@ -1,10 +1,9 @@
-// src/pages/EssayDetails.jsx
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { FETCH_ESSAY_DETAILS } from '../utils/queries';
 import CommentBox from '../components/CommentBox/Index';
-
+import { Box, Typography, CircularProgress } from '@mui/material';
 
 function EssayDetails() {
     const { essayID } = useParams(); 
@@ -14,22 +13,31 @@ function EssayDetails() {
 
     useEffect(() => {}, [essayID]);
     
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
+    if (loading) return <CircularProgress />;
+    if (error) return <Typography color="error">Error: {error.message}</Typography>;
     
     return (
-        <div>
-            <h2>Essay Details</h2>
+        <Box sx={{ width: '100%', maxWidth: 600, margin: 'auto', paddingTop: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Typography variant="h4" component="h3" gutterBottom>
+                Essay Details
+            </Typography>
             {data?.essay ? (
-                <div>
-                    <h3>Essay Text</h3>
-                    <p>{data.essay.text}</p>
-                </div>
+                <Box sx={(theme) => ({
+                    border: `2px solid ${theme.palette.primary.main}`, 
+                    padding: 2, 
+                    borderRadius: '4px', 
+                    marginTop: 2
+                })}>
+                    <Typography variant="h5" gutterBottom>
+                        Essay Text
+                    </Typography>
+                    <Typography variant="body1">{data.essay.text}</Typography>
+                </Box>
             ) : (
-                <p>Essay details not found.</p>
+                <Typography>Essay details not found.</Typography>
             )}
             <CommentBox essayId={essayID} />
-        </div>
+        </Box>
     );
 }
 

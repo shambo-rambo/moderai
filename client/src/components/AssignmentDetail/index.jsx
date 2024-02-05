@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { FETCH_ASSIGNMENT_DETAILS } from '../../utils/queries';
+import { Box, Typography, TextField, CircularProgress } from '@mui/material';
 
 function AssignmentDetails() {
     const { assignmentID } = useParams();
@@ -10,24 +11,48 @@ function AssignmentDetails() {
     useEffect(() => {
     }, [assignmentID]);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
+    if (loading) return <CircularProgress />;
+    if (error) return <Typography color="error">Error: {error.message}</Typography>;
 
     const assignment = data?.assignment;
 
     return (
-        <div>
-            <h2>Assignment Details</h2>
+        <Box sx={{ width: '100%', maxWidth: 600, margin: 'auto', paddingTop: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Typography variant="h4" component="h3" gutterBottom>
+                Assignment Details
+            </Typography>
             {assignment ? (
-                <div>
-                    <h3>{assignment.title}</h3>
-                    <p><strong>Instructions:</strong> {assignment.instructions}</p>
-                    <p><strong>Subject Group:</strong> {assignment.subjectGroup}</p>
-                </div>
+                <Box>
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        label="Title"
+                        value={assignment.title}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        multiline
+                        rows={2}
+                    />
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        label="Instructions"
+                        value={assignment.instructions}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        multiline
+                        rows={2}
+                    />
+                    {/* If you have other details like subject group, add them here */}
+                </Box>
             ) : (
-                <p>Assignment details not found.</p>
+                <Typography>
+                    Assignment details not found.
+                </Typography>
             )}
-        </div>
+        </Box>
     );
 }
 

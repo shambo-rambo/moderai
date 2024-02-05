@@ -97,3 +97,53 @@
 // });
 
 // module.exports = router;
+
+const OpenAI = require('openai');
+const db = require('../config/connection');
+const Essay = require('../models/Essay'); // Your Essay model
+const Comment = require('../models/Comment'); // Your Comment model
+
+// Initialize the OpenAI API with your API key
+const openai = new OpenAI(process.env.OPENAI_API_KEY);
+
+async function main(essayId) {
+  try {
+    await db.connect(); // Assuming `connect` is a method to establish the database connection
+
+    // Find the essay by its _id field
+    const essay = await Essay.findById(essayId);
+    if (!essay) {
+      console.log("Essay not found");
+      return;
+    }
+
+    const completion = await openai.chat.completions.create({
+        messages: [
+          {
+            role: "system",
+            content: "You are a helpful marking assistant designed to output JSON.",
+          },
+          { role: "user", content: essay.text },
+        ],
+        model: "gpt-3.5-turbo-0125",
+        response_format: { type: "json_object" },
+      });
+      console.log(completion.choices[0].message.content);
+
+    const commentText = completion.data.choices[0].text.trim();
+    console.log(commentText);
+
+    // Create a new comment
+    const comment = new Comment({
+      text: commentText,
+      essayId: essay._id // Reference the Essay's ObjectId
+    });
+
+    // Save the comment to the database
+    await comment.save();
+
+    console.log("Comment saved successfully");
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+}

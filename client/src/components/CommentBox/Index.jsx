@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { FETCH_COMMENTS } from '../../utils/queries'; 
 import { SUBMIT_COMMENT } from '../../utils/mutations';
+import { Box, TextField, Button, Typography, CircularProgress } from '@mui/material';
 
 const CommentBox = () => { 
     const { essayID } = useParams(); 
@@ -25,30 +26,40 @@ const CommentBox = () => {
         setCommentText(''); 
     };
 
-    if (loading) return <p>Loading comments...</p>;
-    if (error) return <p>Error loading comments: {error.message}</p>;
+    if (loading) return <CircularProgress />;
+    if (error) return <Typography color="error">Error loading comments: {error.message}</Typography>;
 
     const comments = data?.commentsByEssay || [];
 
     return (
-        <div>
-            <form onSubmit={handleCommentSubmit}>
-                <textarea
+        <Box sx={{ width: '100%', maxWidth: 600, margin: 'auto', mt: 2 }}>
+            <Box component="form" noValidate autoComplete="off" onSubmit={handleCommentSubmit} sx={{ width: '100%' }}>
+                <TextField
+                    fullWidth
+                    multiline
+                    rows={4}
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
                     placeholder="Add a comment..."
+                    variant="outlined"
                 />
-                <button type="submit">Submit Comment</button>
-            </form>
-            <div>
-                <h3>Comments</h3>
+                <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>Submit Comment</Button>
+            </Box>
+            <Box sx={{ mt: 2 }}>
+                <Typography variant="h6">Comments</Typography>
                 {comments.map((comment) => (
-                    <div key={comment._id}>
-                        <p>{comment.text}</p>
-                    </div>
+                    <Box key={comment._id} sx={(theme) => ({
+                        border: `1px solid ${theme.palette.primary.main}`, 
+                        p: 2, 
+                        borderRadius: '4px', 
+                        mt: 1 
+                    })}>
+                        <Typography>{comment.text}</Typography>
+                    </Box>
+                    
                 ))}
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 };
 
