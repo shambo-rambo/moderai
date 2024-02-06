@@ -32,39 +32,7 @@ const CommentBox = () => {
     if (error) return <Typography color="error">Error loading comments: {error.message}</Typography>;
 
     const comments = data?.commentsByEssay || [];
-
-//     return (
-//         <Box sx={{ width: '100%', maxWidth: 600, margin: 'auto', mt: 2 }}>
-            // <Box component="form" noValidate autoComplete="off" onSubmit={handleCommentSubmit} sx={{ width: '100%' }}>
-            //     <TextField
-            //         fullWidth
-            //         multiline
-            //         rows={4}
-            //         value={commentText}
-            //         onChange={(e) => setCommentText(e.target.value)}
-            //         placeholder="Add a comment..."
-            //         variant="outlined"
-            //     />
-            //     <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>Submit Comment</Button>
-            // </Box>
-//             <Box sx={{ mt: 2 }}>
-//                 <Typography variant="h6">Comments</Typography>
-//                 {comments.map((comment) => (
-//                     <Box key={comment._id} sx={(theme) => ({
-//                         border: `1px solid ${theme.palette.primary.main}`, 
-//                         p: 2, 
-//                         borderRadius: '4px', 
-//                         mt: 1 
-//                     })}>
-//                         <Typography>{comment.text}</Typography>
-//                     </Box>
-                    
-//                 ))}
-//             </Box>
-//         </Box>
-//     );
-// };
-
+    
         return (
             <Box sx={{ width: '100%', maxWidth: 600, margin: 'auto', mt: 2 }}>
             <Box component="form" noValidate autoComplete="off" onSubmit={handleCommentSubmit} sx={{ width: '100%' }}>
@@ -81,7 +49,6 @@ const CommentBox = () => {
             </Box>                <Box sx={{ mt: 2 }}>
                     <Typography variant="h6">Comments</Typography>
                     {comments.map((comment) => {
-                        // Assuming an 'isAI' flag or similar to identify AI-generated comments; adjust based on your actual data model
                         let commentText = comment.text;
                         if (comment.isAI) {
                             try {
