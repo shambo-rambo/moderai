@@ -17,5 +17,17 @@ export default defineConfig({
   },
   build: {
     outDir: 'build', // Specify the build output directory
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              // Node modules are split into a separate chunk
+              return 'vendor';
+            }
+          }
+        }
+      }
+    }
   },
 });
