@@ -56,10 +56,24 @@ const CombinedAssignment = () => {
     };
 
     return (
-        <Box sx={{ width: '100%', maxWidth: 600, margin: 'auto', paddingTop: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-            <Typography variant="h4" component="h3" gutterBottom>
-                Create Assignment & <br></br> Marking Criteria
+        <Box sx={{ width: '100%', maxWidth: 800, margin: 'auto', paddingTop: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+       <Box sx={{
+            backgroundColor: 'black', 
+            padding: 2, 
+            borderRadius: '4px',
+            textAlign: 'center', 
+            boxShadow: 3, 
+            mb: 4
+        }}>
+            <Typography 
+                variant="h4" 
+                component="h3" 
+                sx={{ color: 'white', fontWeight: 'bold' }}
+                gutterBottom
+            >
+                Create Assignment & Marking Criteria
             </Typography>
+        </Box>
             <Box component="form" noValidate autoComplete="off" onSubmit={handleFormSubmit}>
                 <TextField
                     fullWidth

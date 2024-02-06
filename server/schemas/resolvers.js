@@ -102,6 +102,7 @@
 // module.exports = resolvers;
 
 // Resolvers 
+require('dotenv').config();
 const { User, Assignment, MarkingCriteria, Essay, Comment } = require('../models');
 const { signToken } = require('../utils/auth');
 const bcrypt = require('bcrypt');
@@ -187,46 +188,82 @@ const resolvers = {
             const essay = new Essay({ assignmentId, text });
             const savedEssay = await essay.save(); // Save the essay and get the saved instance
             
+            // try {
+            //     const completion = await openai.chat.completions.create({
+            //         messages: [
+            //           {
+            //             role: "system",
+            //             content: "You are a helpful marking assistant designed to output JSON. Write single sentence feedback for the essay text provided.",
+            //           },
+            //           { role: "user", content: essay.text },
+            //         ],
+            //         model: "gpt-3.5-turbo-0125",
+            //         response_format: { type: "json_object" },
+            //       });
+            //       console.log("OpenAI message content:", JSON.stringify(completion.choices[0].message, null, 2));
+            //       const responseObject = JSON.parse(completion.choices[0].message.content);
+
+            //         const commentText = responseObject.comment;
+
+            //         if (!commentText) {
+            //             throw new Error('No comment text was generated');
+            //         }
+                
+            //         // Create and save the comment
+            //         const comment = new Comment({
+            //             text: commentText,
+            //             essayId: savedEssay._id,
+            //         });
+            //         await comment.save();
+                
+            //     } catch (error) {
+            //         console.error("Error generating comment with OpenAI:", error);
+            //         await Essay.findByIdAndDelete(savedEssay._id);
+            //         throw error; // Re-throw the error to be handled by the caller
+            //     }
+            // return savedEssay; 
+
             try {
                 const completion = await openai.chat.completions.create({
                     messages: [
-                      {
-                        role: "system",
-                        content: "You are a helpful marking assistant designed to output JSON.",
-                      },
-                      { role: "user", content: essay.text },
+                        {
+                            role: "system",
+                            content: "You are a helpful marking assistant designed to output JSON. Write single sentence feedback for the essay text provided.",
+                        },
+                        { role: "user", content: essay.text },
                     ],
                     model: "gpt-3.5-turbo-0125",
                     response_format: { type: "json_object" },
-                  });
-                  console.log(completion.choices[0].message.content);
+                });
+                console.log("OpenAI message content:", JSON.stringify(completion.choices[0].message, null, 2));
             
-                const commentText = completion.data.choices[0].text.trim();
+                // Assuming the 'content' field is a JSON string as per the logged response
+                // Directly parsing the 'content' field from the response
+                const parsedContent = JSON.parse(completion.choices[0].message.content.trim());
                 
+                // Extracting 'feedback' from the parsed JSON object
+                const commentText = parsedContent.feedback;
+                
+                if (!commentText) {
+                    throw new Error('No comment text was generated');
+                }
+            
                 // Create and save the comment
                 const comment = new Comment({
                     text: commentText,
                     essayId: savedEssay._id,
                 });
                 await comment.save();
-                
-            } catch (error) {
-                console.error("Error generating comment with OpenAI:", error);
-                // Remove the saved essay since we're aborting the submission process
-                await Essay.findByIdAndDelete(savedEssay._id);
-                // Throw an error to indicate the submission process has been halted
-                throw new Error('Failed to generate a comment. Essay submission aborted.');
-            }
-
-            // Find the corresponding assignment and update it with the new essay's ID
-            const assignment = await Assignment.findById(assignmentId); // Find the assignment by ID
-            if (!assignment) {
-                throw new Error('Assignment not found');
-            }
-            assignment.essays.push(savedEssay._id); // Add the new essay's ID to the assignment's essays array
-            await assignment.save(); // Save the updated assignment
             
-            return savedEssay; // Return the saved essay
+            } catch (error) {
+                console.error("Error generating comment with OpenAI or processing the response:", error);
+                // Delete the saved essay as part of error handling if comment generation fails
+                await Essay.findByIdAndDelete(savedEssay._id);
+                throw error; // Re-throw the error for further handling
+            }
+            
+            return savedEssay;
+            
         },
         addComment: async (parent, { essayId, text }) => {
             const comment = new Comment({ essayId, text });

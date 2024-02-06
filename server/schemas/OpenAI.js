@@ -97,7 +97,7 @@
 // });
 
 // module.exports = router;
-
+require('dotenv').config();
 const OpenAI = require('openai');
 const db = require('../config/connection');
 const Essay = require('../models/Essay'); // Your Essay model

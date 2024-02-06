@@ -6,7 +6,7 @@ const Home = () => {
     return (
         <Box sx={{ width: '100%', maxWidth: 600, margin: 'auto', padding: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
             <Typography variant="h4" component="h1" gutterBottom>
-                Welcome to the Essay Grading Assistant App
+                Welcome to ModerAI
             </Typography>
             <Typography variant="body1">
                 Empowering Educators with AI-Powered Student Assessment
@@ -15,13 +15,13 @@ const Home = () => {
                 Efficiency, Accuracy, and Support for Teachers
             </Typography>
             <Typography variant="body1">
-                Experience a revolutionary approach to grading and providing feedback on student work with the Essay Grading Assistant App. Our advanced AI technology streamlines the assessment process, giving educators more time to focus on teaching while ensuring fair and insightful evaluations.
+                Experience a revolutionary approach to grading and providing feedback on student work with ModerAI. Our advanced AI technology streamlines the moderation process, giving educators more time to focus on feedback while ensuring fair and insightful evaluations.
             </Typography>
             <Typography variant="body1">
                 Key Features:
             </Typography>
             <ul>
-                <li><strong>Upload Student Work:</strong> Easily upload essays, assignments, and projects submitted by your students.</li>
+                <li><strong>Upload Student Work:</strong> Easily upload essays submitted by your students.</li>
                 <li><strong>AI Assessment:</strong> Our cutting-edge AI analyzes student work, providing objective evaluation and grading.</li>
                 <li><strong>Customized Comments:</strong> Generate personalized comments for each student, offering constructive feedback to aid their development.</li>
                 <li><strong>Efficiency Boost:</strong> Save hours of grading time, allowing you to dedicate more attention to teaching and mentoring.</li>

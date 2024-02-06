@@ -57,9 +57,8 @@ function Login(props) {
           type="password"
           value={formState.password}
           onChange={handleChange}
-          multiline
-          rows={2}
         />
+
         {error && (
           <Typography color="error" sx={{ mt: 2 }}>
             The provided credentials are incorrect
