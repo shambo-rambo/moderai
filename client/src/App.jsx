@@ -7,7 +7,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { ThemeProvider } from '@mui/material/styles';
-import theme from './theme';
+import theme from './theme/Index';
 
 import Nav from './components/Nav';
 
