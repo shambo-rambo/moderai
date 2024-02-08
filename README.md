@@ -46,7 +46,7 @@ The app allows educators to upload student essays, which are then automatically 
 
 ## Screenshot
 
-![ModerAI Screenshot](./client/build/assets/Screenshot.png)
+![ModerAI Screenshot](./client/src/assets/Screenshot.png)
 
 ## Demo
 

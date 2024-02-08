@@ -187,41 +187,6 @@ const resolvers = {
             // Create a new essay
             const essay = new Essay({ assignmentId, text });
             const savedEssay = await essay.save(); // Save the essay and get the saved instance
-            
-            // try {
-            //     const completion = await openai.chat.completions.create({
-            //         messages: [
-            //           {
-            //             role: "system",
-            //             content: "You are a helpful marking assistant designed to output JSON. Write single sentence feedback for the essay text provided.",
-            //           },
-            //           { role: "user", content: essay.text },
-            //         ],
-            //         model: "gpt-3.5-turbo-0125",
-            //         response_format: { type: "json_object" },
-            //       });
-            //       console.log("OpenAI message content:", JSON.stringify(completion.choices[0].message, null, 2));
-            //       const responseObject = JSON.parse(completion.choices[0].message.content);
-
-            //         const commentText = responseObject.comment;
-
-            //         if (!commentText) {
-            //             throw new Error('No comment text was generated');
-            //         }
-                
-            //         // Create and save the comment
-            //         const comment = new Comment({
-            //             text: commentText,
-            //             essayId: savedEssay._id,
-            //         });
-            //         await comment.save();
-                
-            //     } catch (error) {
-            //         console.error("Error generating comment with OpenAI:", error);
-            //         await Essay.findByIdAndDelete(savedEssay._id);
-            //         throw error; // Re-throw the error to be handled by the caller
-            //     }
-            // return savedEssay; 
 
             try {
                 const completion = await openai.chat.completions.create({
@@ -268,6 +233,21 @@ const resolvers = {
         addComment: async (parent, { essayId, text }) => {
             const comment = new Comment({ essayId, text });
             return await comment.save();
+        },
+        deleteComment: async (parent, { commentId }) => {
+            const deletedComment = await Comment.findByIdAndDelete(commentId);
+            if (!deletedComment) {
+                throw new Error(`No comment found with ID: ${commentId}`);
+            }
+            return deletedComment;
+        },
+
+        editComment: async (parent, { commentId, text }) => {
+            const updatedComment = await Comment.findByIdAndUpdate(commentId, { text }, { new: true });
+            if (!updatedComment) {
+                throw new Error(`No comment found with ID: ${commentId}`);
+            }
+            return updatedComment;
         }
     }
 };

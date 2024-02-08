@@ -72,3 +72,19 @@ export const SUBMIT_COMMENT = gql`
   }
 `;
 
+export const DELETE_COMMENT = gql`
+  mutation DeleteComment($commentId: ID!) {
+    deleteComment(commentId: $commentId) {
+      _id
+    }
+  }
+`;
+
+export const EDIT_COMMENT = gql`
+  mutation EditComment($commentId: ID!, $text: String!) {
+    editComment(commentId: $commentId, text: $text) {
+      _id
+      text
+    }
+  }
+`;

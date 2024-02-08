@@ -34,6 +34,12 @@ const typeDefs = gql`
         assignmentId: Assignment
         text: String
     }
+
+    type Comment {
+        _id: ID!
+        text: String!
+        essayId: ID!
+    }
     
     input AssignmentInput {
         title: String!
@@ -86,6 +92,8 @@ const typeDefs = gql`
         addMarkingCriteria(input: MarkingCriteriaInput): MarkingCriteria
         addEssay(input: EssayInput): Essay
         addComment(essayId: ID!, text: String!): Comment
+        deleteComment(commentId: ID!): Comment
+        editComment(commentId: ID!, text: String!): Comment
     }
 `;
 
