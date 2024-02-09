@@ -49,7 +49,7 @@ Create Assignments
 ![ModerAI Screenshot](./client/src/assets/Screenshot.png)
 
 Create AI and user comments, which are draggable for convenience.
-![ModerAI Screenshot2](./client/src/assets/Screenshot 2.png)
+![ModerAI Screenshot 2](./client/src/assets/Screenshot 2.png)
 
 ## Demo
 
